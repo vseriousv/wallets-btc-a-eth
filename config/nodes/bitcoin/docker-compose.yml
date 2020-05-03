@@ -1,0 +1,29 @@
+# Note: For production. For development, use `docker-compose.yml`
+version: '3.0'
+services:
+  bitcoin-core:
+    image: bitcoin-core
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        BITCOIN_CORE_VERSION: $BITCOIN_CORE_VERSION
+    container_name: "bitcoin-core"
+    environment:
+      - BITCOIN_API_USERNAME
+      - BITCOIN_API_PASSWORD
+      - BITCOIN_API_CLIENTTIMEOUT
+      - BITCOIN_API_ALLOWIP
+      - BITCOIN_API_PORT
+      - BITCOIN_PRINTTOCONSOLE
+      - BITCOIN_TXINDEX
+      - BITCOIN_DBCACHE
+    network_mode: bridge
+    expose:
+     - 8332
+     - 8333
+     - 28332
+     - 28333
+    volumes:
+     - /srv/bitcoin:/root/.bitcoin
+    restart: unless-stopped
